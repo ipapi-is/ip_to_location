@@ -1,9 +1,9 @@
 # IP to Location
 
-[![Npm package version](https://badgen.net/npm/v/ip-to-loc)](https://www.npmjs.com/package/ip-to-loc)
-[![Npm package yearly downloads](https://badgen.net/npm/dy/ip-to-loc)](https://npmjs.com/package/ip-to-loc)
+[![Npm package version](https://badgen.net/npm/v/location-from-ip)](https://www.npmjs.com/package/location-from-ip)
+[![Npm package yearly downloads](https://badgen.net/npm/dy/location-from-ip)](https://npmjs.com/package/location-from-ip)
 
-This package gives IP Geolocation information for every IPv4 or IPv6 address.
+The npm package `location-from-ip` gives IP Geolocation information for every IPv4 or IPv6 address.
 
 Currently, there are millions of different geolocation records in the database. Learn more, by [reading the documentation](https://ipapi.is/geolocation.html).
 
@@ -12,7 +12,7 @@ Currently, there are millions of different geolocation records in the database. 
 You can both use this package from Node.js and in the browser with vanilla JavaScript.
 
 ```bash
-npm install ip-to-loc
+npm install location-from-ip
 ```
 
 If you want to clone the repository directly from GitHub instead:
@@ -26,7 +26,7 @@ git clone git@github.com:ipapi-is/ip_to_location.git
 If you want to lookup the IP address `144.168.164.55`:
 
 ```JavaScript
-const { ipToGeolocation } = require('./src/ip_to_loc');
+const { ipToGeolocation } = require('location-from-ip');
 
 const ipAddresses = [
   '144.168.164.55',
@@ -113,10 +113,10 @@ which yields:
 Copy the browser JavaScript bundle to your preferred location. After installing the module with
 
 ```bash
-npm install ip-to-loc
+npm install location-from-ip
 ```
 
-you can find the minified JavaScript here: `node_modules/ip-to-loc/dist/ipToGeolocation.min.js`
+you can find the minified JavaScript here: `node_modules/location-from-ip/dist/ipToGeolocation.min.js`
 
 ```html
 <!doctype html>

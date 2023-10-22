@@ -1,7 +1,7 @@
 {
-  "name": "ip-loc",
+  "name": "location-from-ip",
   "version": "1.0.0",
-  "description": "ip-loc gives IP Geolocation information for every IPv4 or IPv6 address",
+  "description": "`location-from-ip` gives IP Geolocation information for every IPv4 or IPv6 address",
   "main": "src/ip_to_loc.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
