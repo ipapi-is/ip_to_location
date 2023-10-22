@@ -1,0 +1,27 @@
+{
+  "name": "ip-loc",
+  "version": "1.0.0",
+  "description": "ip-loc gives IP Geolocation information for every IPv4 or IPv6 address",
+  "main": "src/ip_to_hosting.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ipapi-is/ip_to_hosting.git"
+  },
+  "keywords": [
+    "ip geolocation",
+    "ip to country",
+    "ip to latitude",
+    "ip to longitude",
+    "ip to DST",
+    "ipapi.is"
+  ],
+  "author": "ipapi.is",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ipapi-is/ip_to_hosting/issues"
+  },
+  "homepage": "https://ipapi.is/"
+}

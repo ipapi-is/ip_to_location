@@ -3,9 +3,9 @@
 [![Npm package version](https://badgen.net/npm/v/ip-to-hosting)](https://www.npmjs.com/package/ip-to-hosting)
 [![Npm package yearly downloads](https://badgen.net/npm/dy/ip-to-hosting)](https://npmjs.com/package/ip-to-hosting)
 
-This package allows you to check whether an IP address belongs to a hosting/cloud provider. In case the IP belongs to a hosting provider (datacenter), this module will return the meta information for the hosting provider.
+This package gives IP Geolocation information for every IPv4 or IPv6 address.
 
-Currently, there are more than 180,000 IP ranges from more than 4,400 hosting providers in the database. Learn more, by [reading the documentation](https://ipapi.is/hosting-detection.html).
+Currently, there are millions of different geolocation records in the database. Learn more, by [reading the documentation](https://ipapi.is/geolocation.html).
 
 ## Installation
 
@@ -18,7 +18,7 @@ npm install ip-to-loc
 If you want to clone the repository directly from GitHub instead:
 
 ```bash
-git clone git@github.com:ipapi-is/ip_to_hosting.git
+git clone git@github.com:ipapi-is/ip_to_location.git
 ```
 
 ## Usage from Node.js
@@ -26,7 +26,7 @@ git clone git@github.com:ipapi-is/ip_to_hosting.git
 If you want to lookup the IP address `144.168.164.55`:
 
 ```JavaScript
-const { ipToHosting } = require('ip-to-hosting');
+const { ipToGeolocation } = require('./src/ip_to_loc');
 
 const ipAddresses = [
   '144.168.164.55',
@@ -36,9 +36,9 @@ const ipAddresses = [
 ];
 
 for (let ip of ipAddresses) {
-  ipToHosting(ip).then(function (isHosting) {
-    console.log(`${ip} isHosting:`);
-    console.log(isHosting);
+  ipToGeolocation(ip).then(function (location) {
+    console.log(`${ip} geolocation:`);
+    console.log(location);
   });
 }
 ```
@@ -46,56 +46,77 @@ for (let ip of ipAddresses) {
 which yields:
 
 ```JavaScript
-144.168.164.55 isHosting:
+167.99.241.66 geolocation:
 {
-  datacenter: 'B2 Net Solutions Inc.',
-  domain: 'www.servermania.com',
-  network: '144.168.128.0 - 144.168.255.255'
+  continent: 'EU',
+  country: 'Germany',
+  country_code: 'DE',
+  state: 'Hesse',
+  city: 'Frankfurt am Main',
+  latitude: 50.1109,
+  longitude: 8.68213,
+  zip: '07022',
+  timezone: 'Europe/Berlin',
+  local_time: '2023-10-22T13:36:01+02:00',
+  local_time_unix: 1697974561,
+  is_dst: true
 }
-85.10.199.76 isHosting:
+85.10.199.76 geolocation:
 {
-  datacenter: 'Hetzner Online AG',
-  domain: 'www.hetzner.com',
-  network: '85.10.192.0 - 85.10.207.255'
+  continent: 'EU',
+  country: 'Germany',
+  country_code: 'DE',
+  state: 'Bavaria',
+  city: 'Nürnberg',
+  latitude: 49.45421,
+  longitude: 11.07752,
+  zip: '90403',
+  timezone: 'Europe/Berlin',
+  local_time: '2023-10-22T13:36:01+02:00',
+  local_time_unix: 1697974561,
+  is_dst: true
 }
-97.107.129.77 isHosting:
+97.107.129.77 geolocation:
 {
-  datacenter: 'Linode',
-  name: 'US-NJ',
-  city: 'Cedar Knolls',
-  country: 'US',
-  network: '97.107.129.0/24'
+  continent: 'NA',
+  country: 'United States',
+  country_code: 'US',
+  state: 'New Jersey',
+  city: 'Morris Plains',
+  latitude: 40.82177,
+  longitude: -74.48099,
+  zip: '07927',
+  timezone: 'America/New_York',
+  local_time: '2023-10-22T07:36:01-04:00',
+  local_time_unix: 1697974561,
+  is_dst: true
 }
-167.99.241.66 isHosting:
+144.168.164.55 geolocation:
 {
-  datacenter: 'DigitalOcean',
-  code: '60341',
-  city: 'Frankfurt',
-  state: 'DE-HE',
-  country: 'DE',
-  network: '167.99.240.0/20'
+  continent: 'NA',
+  country: 'Canada',
+  country_code: 'CA',
+  state: 'Quebec',
+  city: "Baie-D'Urfé",
+  latitude: 45.41397,
+  longitude: -73.91586,
+  zip: 'H9X',
+  timezone: 'America/Toronto',
+  local_time: '2023-10-22T07:36:01-04:00',
+  local_time_unix: 1697974561,
+  is_dst: true
 }
 ```
-
-If the IP address belongs to a datacenter/hosting provider, the API response will return an object with the following required attributes:
-
-- `datacenter` - `string` - to which datacenter the IP address belongs. For a full list of datacenters, check the [ipapi.is/json/info endpoint](https://ipapi.is/json/info). In this case, the datacenter's name is `B2 Net Solutions Inc.`
-- `domain` - `string` - The domain name of the company
-- `network` - `string` - the network this IP address belongs to (In the above case: `144.168.128.0 - 144.168.255.255`)
-
-With some datacenter providers, more meta data is available. Consult the [API documentation page](https://ipapi.is/developers.html) in order to learn more.
-
-Most IP's don't belong to a hosting provider. In those cases, the response will be `null`.
 
 ## Usage from the Browser
 
 Copy the browser JavaScript bundle to your preferred location. After installing the module with
 
 ```bash
-npm install ip-to-hosting
+npm install ip-to-loc
 ```
 
-you can find the minified JavaScript here: `node_modules/ip-to-hosting/dist/ipToHosting.min.js`
+you can find the minified JavaScript here: `node_modules/ip-to-loc/dist/ipToGeolocation.min.js`
 
 ```html
 <!doctype html>
@@ -104,16 +125,16 @@ you can find the minified JavaScript here: `node_modules/ip-to-hosting/dist/ipTo
 
 <head>
   <meta charset="utf-8">
-  <title>IP to Hosting Example Browser</title>
-  <meta name="description" content="IP to Hosting Example">
+  <title>IP to Geolocation Example Browser</title>
+  <meta name="description" content="IP to Geolocation Example">
   <meta name="author" content="ipapi.is">
 </head>
 
 <body>
-  <script type="text/javascript" src="dist/ipToHosting.min.js"></script>
+  <script type="text/javascript" src="dist/ipToGeolocation.min.js"></script>
   <script type="text/javascript">
-    ipToHosting('43.33.44.11').then((res) => {
-      alert(`ipToHosting: ${JSON.stringify(res)}`);
+    ipToGeolocation('43.33.44.11').then((res) => {
+      alert(`ipToGeolocation: ${JSON.stringify(res)}`);
     });
   </script>
 </body>
@@ -123,66 +144,6 @@ you can find the minified JavaScript here: `node_modules/ip-to-hosting/dist/ipTo
 
 ## Use the Database Directly
 
-This package uses the [ipapi.is API](https://ipapi.is/developers.html) in order to avoid shipping a huge database in the npm module. If you have a large volume of IP addresses to lookup, you can download the full & free [Hosting Provider Database](https://ipapi.is/hosting-detection.html).
+This package uses the [ipapi.is geolocation database](https://ipapi.is/geolocation.html) in order to avoid shipping a huge database in the npm module. If you have a large volume of IP addresses to lookup, you can download the full & free [Geolocation Database](https://ipapi.is/geolocation.html).
 
-GitHub mirror of the database: [Hosting Provider Database Mirror](https://github.com/ipapi-is/ipapi/tree/main/databases)
-
-## More Examples
-
-Lookup a DigitalOcean IP address `167.99.241.66`
-
-```JavaScript
-const { ipToHosting } = require('ip-to-hosting');
-
-(async () => {
-  console.log(await ipToHosting('167.99.241.66'));
-})();
-```
-
-```JavaScript
-{
-  cidr: '167.99.240.0/20',
-  datacenter: 'DigitalOcean',
-  code: '60341',
-  city: 'Frankfurt',
-  state: 'DE-HE',
-  country: 'DE'
-}
-```
-
-Lookup a Linode IP address `97.107.129.77`
-
-```JavaScript
-const { ipToHosting } = require('ip-to-hosting');
-
-(async () => {
-  console.log(await ipToHosting('97.107.129.77'));
-})();
-```
-
-```JavaScript
-{
-  cidr: '97.107.129.0/24',
-  datacenter: 'US-NJ',
-  city: 'Cedar Knolls',
-  country: 'US'
-}
-```
-
-Lookup a Hetzner IP address `85.10.199.76`
-
-```JavaScript
-const { ipToHosting } = require('ip-to-hosting');
-
-(async () => {
-  console.log(await ipToHosting('85.10.199.76'));
-})();
-```
-
-```JavaScript
-{
-  datacenter: 'Hetzner Online AG',
-  domain: 'www.hetzner.com',
-  network: '85.10.192.0 - 85.10.207.255'
-}
-```
+GitHub mirror of the database: [Geolocation Database](https://github.com/ipapi-is/ipapi/tree/main/databases)
