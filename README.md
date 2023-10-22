@@ -1,7 +1,7 @@
 # IP to Location
 
-[![Npm package version](https://badgen.net/npm/v/ip-to-hosting)](https://www.npmjs.com/package/ip-to-hosting)
-[![Npm package yearly downloads](https://badgen.net/npm/dy/ip-to-hosting)](https://npmjs.com/package/ip-to-hosting)
+[![Npm package version](https://badgen.net/npm/v/ip-to-loc)](https://www.npmjs.com/package/ip-to-loc)
+[![Npm package yearly downloads](https://badgen.net/npm/dy/ip-to-loc)](https://npmjs.com/package/ip-to-loc)
 
 This package gives IP Geolocation information for every IPv4 or IPv6 address.
 
@@ -125,16 +125,17 @@ you can find the minified JavaScript here: `node_modules/ip-to-loc/dist/ipToGeol
 
 <head>
   <meta charset="utf-8">
-  <title>IP to Geolocation Example Browser</title>
+  <title>IP to Geolocation Example in Browser</title>
   <meta name="description" content="IP to Geolocation Example">
   <meta name="author" content="ipapi.is">
 </head>
 
 <body>
+  <pre id="location"></pre>
   <script type="text/javascript" src="dist/ipToGeolocation.min.js"></script>
   <script type="text/javascript">
     ipToGeolocation('43.33.44.11').then((res) => {
-      alert(`ipToGeolocation: ${JSON.stringify(res)}`);
+      document.getElementById('location').innerText = JSON.stringify(res, null, 2);
     });
   </script>
 </body>
