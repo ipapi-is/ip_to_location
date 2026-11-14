@@ -1,27 +1,36 @@
 {
   "name": "location-from-ip",
-  "version": "1.0.1",
-  "description": "`location-from-ip` gives IP Geolocation information for every IPv4 or IPv6 address",
-  "main": "src/ip_to_loc.js",
+  "version": "2.0.0",
+  "description": "IP geolocation for any IPv4 or IPv6 address: country, state, city, coordinates and timezone, from ipapi.is. Works without an API key, in Node.js and in the browser",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test"
   },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "ip geolocation",
+    "geoip",
+    "ip to location",
+    "ip to country",
+    "ip to city",
+    "ip to timezone",
+    "ip lookup",
+    "ipv6",
+    "ipapi.is"
+  ],
+  "homepage": "https://ipapi.is/geolocation.html?ref=npm",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ipapi-is/ip_to_location.git"
   },
-  "keywords": [
-    "ip geolocation",
-    "ip to country",
-    "ip to latitude",
-    "ip to longitude",
-    "ip to DST",
-    "ipapi.is"
-  ],
-  "author": "ipapi.is",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/ipapi-is/ip_to_location/issues"
   },
-  "homepage": "https://ipapi.is/"
+  "author": "ipapi.is <info@ipapi.is> (https://ipapi.is/)",
+  "license": "ISC"
 }

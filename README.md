@@ -1,150 +1,86 @@
-# IP to Location
+# location-from-ip
 
-[![Npm package version](https://badgen.net/npm/v/location-from-ip)](https://www.npmjs.com/package/location-from-ip)
-[![Npm package yearly downloads](https://badgen.net/npm/dy/location-from-ip)](https://npmjs.com/package/location-from-ip)
+[![npm version](https://img.shields.io/npm/v/location-from-ip)](https://www.npmjs.com/package/location-from-ip)
+[![npm downloads](https://img.shields.io/npm/dm/location-from-ip)](https://www.npmjs.com/package/location-from-ip)
 
-The npm package `location-from-ip` gives IP Geolocation information for every IPv4 or IPv6 address.
+IP geolocation for any IPv4 or IPv6 address: country, state, city, coordinates and timezone, from the [ipapi.is](https://ipapi.is/geolocation.html?ref=npm) API. It works without an API key, in Node.js 18 or newer and in the browser, and has no dependencies.
 
-Currently, there are millions of different geolocation records in the database. Learn more, by [reading the documentation](https://ipapi.is/geolocation.html).
-
-## Installation
-
-You can both use this package from Node.js and in the browser with vanilla JavaScript.
-
-```bash
+```sh
 npm install location-from-ip
 ```
 
-If you want to clone the repository directly from GitHub instead:
-
-```bash
-git clone git@github.com:ipapi-is/ip_to_location.git
-```
-
-## Usage from Node.js
-
-If you want to lookup the IP address `144.168.164.55`:
-
-```JavaScript
+```js
 const { ipToGeolocation } = require('location-from-ip');
 
-const ipAddresses = [
-  '144.168.164.55',
-  '167.99.241.66',
-  '97.107.129.77',
-  '85.10.199.76',
-];
+await ipToGeolocation('85.10.199.76');
+```
 
-for (let ip of ipAddresses) {
-  ipToGeolocation(ip).then(function (location) {
-    console.log(`${ip} geolocation:`);
-    console.log(location);
-  });
+```js
+{
+  country: 'Germany',
+  state: 'Bavaria',
+  city: 'Nuremberg',
+  latitude: 49.45421,
+  longitude: 11.07752,
+  timezone: 'Europe/Berlin'
 }
 ```
 
-which yields:
+That is what a lookup without an API key returns, for up to 30 lookups per day and IP address. Without an argument, `ipToGeolocation()` locates the caller.
 
-```JavaScript
-167.99.241.66 geolocation:
+## In the browser
+
+Greet a visitor by their city, with no backend and no key:
+
+```html
+<script src="https://unpkg.com/location-from-ip@2"></script>
+<script>
+  ipToGeolocation().then((place) => {
+    document.body.textContent = place ? `Hello ${place.city}, ${place.country}!` : 'Hello!';
+  });
+</script>
+```
+
+Each visitor has their own 30 lookups a day. Do not put an API key in page JavaScript: it would be public.
+
+## With an API key
+
+A [free account](https://ipapi.is/app/signup?ref=npm) includes 1,000 lookups a day, commercial use allowed, and the complete location. Put the key in the environment as `IPAPI_KEY`, or pass it as `ipToGeolocation(ip, { key })`:
+
+```js
 {
-  continent: 'EU',
-  country: 'Germany',
-  country_code: 'DE',
-  state: 'Hesse',
-  city: 'Frankfurt am Main',
-  latitude: 50.1109,
-  longitude: 8.68213,
-  zip: '07022',
-  timezone: 'Europe/Berlin',
-  local_time: '2023-10-22T13:36:01+02:00',
-  local_time_unix: 1697974561,
-  is_dst: true
-}
-85.10.199.76 geolocation:
-{
+  is_eu_member: true,
+  calling_code: '49',
+  currency_code: 'EUR',
   continent: 'EU',
   country: 'Germany',
   country_code: 'DE',
   state: 'Bavaria',
-  city: 'Nürnberg',
+  city: 'Nuremberg',
   latitude: 49.45421,
   longitude: 11.07752,
   zip: '90403',
   timezone: 'Europe/Berlin',
-  local_time: '2023-10-22T13:36:01+02:00',
-  local_time_unix: 1697974561,
-  is_dst: true
-}
-97.107.129.77 geolocation:
-{
-  continent: 'NA',
-  country: 'United States',
-  country_code: 'US',
-  state: 'New Jersey',
-  city: 'Morris Plains',
-  latitude: 40.82177,
-  longitude: -74.48099,
-  zip: '07927',
-  timezone: 'America/New_York',
-  local_time: '2023-10-22T07:36:01-04:00',
-  local_time_unix: 1697974561,
-  is_dst: true
-}
-144.168.164.55 geolocation:
-{
-  continent: 'NA',
-  country: 'Canada',
-  country_code: 'CA',
-  state: 'Quebec',
-  city: "Baie-D'Urfé",
-  latitude: 45.41397,
-  longitude: -73.91586,
-  zip: 'H9X',
-  timezone: 'America/Toronto',
-  local_time: '2023-10-22T07:36:01-04:00',
-  local_time_unix: 1697974561,
-  is_dst: true
+  local_time: '2026-11-14T20:33:14+01:00',
+  local_time_unix: 1794684794,
+  is_dst: false,
+  utcoffset: '+01:00',
+  accuracy: 'VERY_HIGH'
 }
 ```
 
-## Usage from the Browser
+`accuracy` is `VERY_HIGH`, `HIGH`, `MEDIUM`, `LOW` or `VERY_LOW`: it says how far the city can be trusted. `VERY_HIGH` usually means the network operator published the location itself, in an [RFC 8805 geofeed](https://datatracker.ietf.org/doc/rfc8805/). All fields are described in the [documentation](https://ipapi.is/developers.html?ref=npm#location-object).
 
-Copy the browser JavaScript bundle to your preferred location. After installing the module with
+`ipToGeolocation()` resolves to `null` for an address that cannot be located, such as a private one. A failed lookup rejects with an `Error` that carries the HTTP `status` and the API's `error_code` as `code`, for example `ERR_INVALID_IP_OR_ASN` or `ERR_FREE_TIER_EXHAUSTED`.
 
-```bash
-npm install location-from-ip
-```
+## Upgrading from 1.x
 
-you can find the minified JavaScript here: `node_modules/location-from-ip/dist/ipToGeolocation.min.js`
+Since 1 September 2026 the API returns the `location` object only with an API key, so version 1 resolves to `null` for every address. Version 2 works with and without a key. Errors now reject instead of resolving to `null`, and the browser file is `index.js` instead of `dist/ipToGeolocation.min.js`.
 
-```html
-<!doctype html>
+## More from ipapi.is
 
-<html lang="en">
+- The same lookup also says who owns the address and whether it is a datacenter, a VPN (and which one), a proxy, a Tor exit or a known abuser: [API documentation](https://ipapi.is/developers.html?ref=npm).
+- [ipapi.is-node](https://github.com/NikolaiT/ipapi.is-node): the full response, bulk lookups and an Express middleware that blocks VPN, proxy and Tor traffic.
+- For lookups without a network call, there is a [free IP geolocation database](https://github.com/ipapi-is/ipapi#free-ip-geolocation-database) (CSV, IPv4 and IPv6, CC BY-SA 4.0) and a more accurate [full one](https://ipapi.is/geolocation.html?ref=npm) in CSV and MMDB.
 
-<head>
-  <meta charset="utf-8">
-  <title>IP to Geolocation Example in Browser</title>
-  <meta name="description" content="IP to Geolocation Example">
-  <meta name="author" content="ipapi.is">
-</head>
-
-<body>
-  <pre id="location"></pre>
-  <script type="text/javascript" src="dist/ipToGeolocation.min.js"></script>
-  <script type="text/javascript">
-    ipToGeolocation('43.33.44.11').then((res) => {
-      document.getElementById('location').innerText = JSON.stringify(res, null, 2);
-    });
-  </script>
-</body>
-
-</html>
-```
-
-## Use the Database Directly
-
-This package uses the [ipapi.is geolocation database](https://ipapi.is/geolocation.html) in order to avoid shipping a huge database in the npm module. If you have a large volume of IP addresses to lookup, you can download the full & free [Geolocation Database](https://ipapi.is/geolocation.html).
-
-GitHub mirror of the database: [Geolocation Database](https://github.com/ipapi-is/ipapi/tree/main/databases)
+ISC license.
